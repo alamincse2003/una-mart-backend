@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { AppModule } from './../src/app.module.js';
+import { configureApp } from './../src/app.setup.js';
 
 // Needs the local database running: `docker compose up -d`.
 describe('Health (e2e)', () => {
@@ -12,6 +13,7 @@ describe('Health (e2e)', () => {
       imports: [AppModule],
     }).compile();
     app = moduleFixture.createNestApplication();
+    configureApp(app);
     await app.init();
   });
 

@@ -1,0 +1,408 @@
+{
+  "categories": [
+    {
+      "name": "Fashion",
+      "slug": "fashion",
+      "parentSlug": null,
+      "sortOrder": 0
+    },
+    {
+      "name": "Gadgets",
+      "slug": "gadgets",
+      "parentSlug": null,
+      "sortOrder": 1
+    },
+    {
+      "name": "Accessories",
+      "slug": "accessories",
+      "parentSlug": null,
+      "sortOrder": 2
+    },
+    {
+      "name": "Sports",
+      "slug": "sports",
+      "parentSlug": null,
+      "sortOrder": 3
+    },
+    {
+      "name": "Audio",
+      "slug": "audio",
+      "parentSlug": "gadgets",
+      "sortOrder": 4
+    },
+    {
+      "name": "Wearables",
+      "slug": "wearables",
+      "parentSlug": "gadgets",
+      "sortOrder": 5
+    },
+    {
+      "name": "Accessories",
+      "slug": "gadget-accessories",
+      "parentSlug": "gadgets",
+      "sortOrder": 6
+    },
+    {
+      "name": "Chargers & Cables",
+      "slug": "chargers-cables",
+      "parentSlug": "gadgets",
+      "sortOrder": 7
+    },
+    {
+      "name": "Men's Wear",
+      "slug": "mens-wear",
+      "parentSlug": "fashion",
+      "sortOrder": 8
+    },
+    {
+      "name": "Women's Wear",
+      "slug": "womens-wear",
+      "parentSlug": "fashion",
+      "sortOrder": 9
+    },
+    {
+      "name": "Summer",
+      "slug": "mens-summer",
+      "parentSlug": "mens-wear",
+      "sortOrder": 10
+    },
+    {
+      "name": "Winter",
+      "slug": "mens-winter",
+      "parentSlug": "mens-wear",
+      "sortOrder": 11
+    },
+    {
+      "name": "Summer",
+      "slug": "womens-summer",
+      "parentSlug": "womens-wear",
+      "sortOrder": 12
+    },
+    {
+      "name": "Winter",
+      "slug": "womens-winter",
+      "parentSlug": "womens-wear",
+      "sortOrder": 13
+    },
+    {
+      "name": "Footwear",
+      "slug": "sports-footwear",
+      "parentSlug": "sports",
+      "sortOrder": 14
+    },
+    {
+      "name": "Fitness Equipment",
+      "slug": "fitness-equipment",
+      "parentSlug": "sports",
+      "sortOrder": 15
+    }
+  ],
+  "products": [
+    {
+      "name": "Wireless Earbuds Pro",
+      "slug": "wireless-earbuds-pro",
+      "description": "Active noise cancellation, 30-hour battery life, USB-C fast charging.",
+      "categorySlug": "audio",
+      "status": "active",
+      "badge": "sale",
+      "freeDelivery": true,
+      "priceBdt": 2990,
+      "originalPriceBdt": 3490,
+      "stockQty": 42,
+      "images": [
+        "/products/image4.webp"
+      ],
+      "rating": 4.6,
+      "reviewCount": 214,
+      "createdAt": "2026-01-10T00:00:00.000Z"
+    },
+    {
+      "name": "Over-Ear ANC Headphones",
+      "slug": "over-ear-anc-headphones",
+      "description": "Active noise cancellation, plush ear cushions, 40-hour battery life.",
+      "categorySlug": "audio",
+      "status": "active",
+      "badge": "best",
+      "freeDelivery": true,
+      "priceBdt": 2990,
+      "originalPriceBdt": null,
+      "stockQty": 55,
+      "images": [
+        "/products/image1.webp"
+      ],
+      "rating": 4.8,
+      "reviewCount": 320,
+      "createdAt": "2026-01-12T00:00:00.000Z"
+    },
+    {
+      "name": "Smart Watch SE",
+      "slug": "smart-watch-se",
+      "description": "Heart rate tracking, sleep monitoring, 7-day battery.",
+      "categorySlug": "wearables",
+      "status": "active",
+      "badge": "new",
+      "freeDelivery": false,
+      "priceBdt": 5990,
+      "originalPriceBdt": null,
+      "stockQty": 18,
+      "images": [
+        "/products/image3.webp"
+      ],
+      "rating": 4.5,
+      "reviewCount": 96,
+      "createdAt": "2026-01-14T00:00:00.000Z"
+    },
+    {
+      "name": "Wireless Mouse",
+      "slug": "wireless-mouse",
+      "description": "Ergonomic wireless mouse, adjustable DPI, silent clicks.",
+      "categorySlug": "gadget-accessories",
+      "status": "active",
+      "badge": null,
+      "freeDelivery": false,
+      "priceBdt": 890,
+      "originalPriceBdt": null,
+      "stockQty": 120,
+      "images": [
+        "/products/image2.webp"
+      ],
+      "rating": 4.3,
+      "reviewCount": 58,
+      "createdAt": "2026-01-15T00:00:00.000Z"
+    },
+    {
+      "name": "Power Bank 20000mAh",
+      "slug": "power-bank-20000mah",
+      "description": "High-capacity power bank with fast-charge pass-through.",
+      "categorySlug": "chargers-cables",
+      "status": "active",
+      "badge": "sale",
+      "freeDelivery": false,
+      "priceBdt": 1990,
+      "originalPriceBdt": 2290,
+      "stockQty": 3,
+      "images": [
+        "/products/image5.webp"
+      ],
+      "rating": 4.4,
+      "reviewCount": 132,
+      "createdAt": "2026-01-16T00:00:00.000Z"
+    },
+    {
+      "name": "USB-C to Lightning Cable",
+      "slug": "usb-c-to-lightning-cable",
+      "description": "1.5m braided cable, supports fast charging and data sync.",
+      "categorySlug": "chargers-cables",
+      "status": "active",
+      "badge": null,
+      "freeDelivery": false,
+      "priceBdt": 590,
+      "originalPriceBdt": null,
+      "stockQty": 80,
+      "images": [
+        "/products/image5.webp"
+      ],
+      "rating": 4.3,
+      "reviewCount": 19,
+      "createdAt": "2026-01-22T00:00:00.000Z"
+    },
+    {
+      "name": "Embroidered Silk Saree",
+      "slug": "embroidered-silk-saree",
+      "description": "Traditional silk saree with hand-finished embroidery detail.",
+      "categorySlug": "womens-summer",
+      "status": "active",
+      "badge": "sale",
+      "freeDelivery": true,
+      "priceBdt": 3450,
+      "originalPriceBdt": 4200,
+      "stockQty": 24,
+      "images": [
+        "/products/Saree1.webp"
+      ],
+      "rating": 4.7,
+      "reviewCount": 52,
+      "createdAt": "2026-01-24T00:00:00.000Z"
+    },
+    {
+      "name": "Men's Casual Cotton Shirt",
+      "slug": "mens-casual-cotton-shirt",
+      "description": "Breathable cotton shirt, regular fit, machine washable.",
+      "categorySlug": "mens-summer",
+      "status": "active",
+      "badge": "new",
+      "freeDelivery": false,
+      "priceBdt": 950,
+      "originalPriceBdt": null,
+      "stockQty": 90,
+      "images": [
+        "/products/Shirt (1).webp"
+      ],
+      "rating": 4.4,
+      "reviewCount": 38,
+      "createdAt": "2026-01-25T00:00:00.000Z"
+    },
+    {
+      "name": "Unisex Sports Sneakers",
+      "slug": "unisex-sports-sneakers",
+      "description": "Lightweight, cushioned sole, breathable mesh upper.",
+      "categorySlug": "sports-footwear",
+      "status": "active",
+      "badge": "best",
+      "freeDelivery": true,
+      "priceBdt": 2200,
+      "originalPriceBdt": null,
+      "stockQty": 65,
+      "images": [
+        "/products/Shoes3.webp"
+      ],
+      "rating": 4.6,
+      "reviewCount": 71,
+      "createdAt": "2026-01-26T00:00:00.000Z"
+    },
+    {
+      "name": "Classic UV-Protection Sunglasses",
+      "slug": "classic-uv-protection-sunglasses",
+      "description": "Polarized lenses with full UV400 protection, unisex frame.",
+      "categorySlug": "accessories",
+      "status": "active",
+      "badge": null,
+      "freeDelivery": false,
+      "priceBdt": 780,
+      "originalPriceBdt": null,
+      "stockQty": 110,
+      "images": [
+        "/products/Sunglasses1.webp"
+      ],
+      "rating": 4.3,
+      "reviewCount": 29,
+      "createdAt": "2026-01-27T00:00:00.000Z"
+    },
+    {
+      "name": "Women's Three-Piece Outfit",
+      "slug": "womens-three-piece-outfit",
+      "description": "Matching three-piece set — kameez, salwar and dupatta.",
+      "categorySlug": "womens-winter",
+      "status": "active",
+      "badge": null,
+      "freeDelivery": false,
+      "priceBdt": 2650,
+      "originalPriceBdt": null,
+      "stockQty": 40,
+      "images": [
+        "/products/Three Piece.webp"
+      ],
+      "rating": 4.5,
+      "reviewCount": 22,
+      "createdAt": "2026-01-28T00:00:00.000Z"
+    },
+    {
+      "name": "Classic Analog Watch",
+      "slug": "classic-analog-watch",
+      "description": "Stainless steel case, genuine leather strap, water resistant.",
+      "categorySlug": "accessories",
+      "status": "active",
+      "badge": "sale",
+      "freeDelivery": false,
+      "priceBdt": 1850,
+      "originalPriceBdt": 2300,
+      "stockQty": 33,
+      "images": [
+        "/products/Watch1.webp"
+      ],
+      "rating": 4.6,
+      "reviewCount": 47,
+      "createdAt": "2026-01-29T00:00:00.000Z"
+    },
+    {
+      "name": "Sports Chronograph Watch",
+      "slug": "sports-chronograph-watch",
+      "description": "Shock-resistant sports watch with chronograph and backlight.",
+      "categorySlug": "accessories",
+      "status": "active",
+      "badge": null,
+      "freeDelivery": false,
+      "priceBdt": 2100,
+      "originalPriceBdt": null,
+      "stockQty": 27,
+      "images": [
+        "/products/Watch4.webp"
+      ],
+      "rating": 4.4,
+      "reviewCount": 18,
+      "createdAt": "2026-01-30T00:00:00.000Z"
+    },
+    {
+      "name": "Minimalist Dress Watch",
+      "slug": "minimalist-dress-watch",
+      "description": "Slim profile dress watch, mesh strap, scratch-resistant glass.",
+      "categorySlug": "accessories",
+      "status": "active",
+      "badge": "new",
+      "freeDelivery": false,
+      "priceBdt": 1650,
+      "originalPriceBdt": null,
+      "stockQty": 45,
+      "images": [
+        "/products/Watch5.webp"
+      ],
+      "rating": 4.5,
+      "reviewCount": 31,
+      "createdAt": "2026-01-31T00:00:00.000Z"
+    },
+    {
+      "name": "Adjustable Dumbbell Set",
+      "slug": "adjustable-dumbbell-set",
+      "description": "5-25kg adjustable dumbbell pair for home strength training.",
+      "categorySlug": "fitness-equipment",
+      "status": "active",
+      "badge": null,
+      "freeDelivery": true,
+      "priceBdt": 4200,
+      "originalPriceBdt": null,
+      "stockQty": 15,
+      "images": [
+        "/products/image5.webp"
+      ],
+      "rating": 4.6,
+      "reviewCount": 24,
+      "createdAt": "2026-02-01T00:00:00.000Z"
+    },
+    {
+      "name": "Yoga Mat (Non-Slip)",
+      "slug": "yoga-mat-non-slip",
+      "description": "6mm thick non-slip yoga mat with carry strap.",
+      "categorySlug": "fitness-equipment",
+      "status": "active",
+      "badge": null,
+      "freeDelivery": false,
+      "priceBdt": 690,
+      "originalPriceBdt": null,
+      "stockQty": 85,
+      "images": [
+        "/products/image4.webp"
+      ],
+      "rating": 4.5,
+      "reviewCount": 40,
+      "createdAt": "2026-02-02T00:00:00.000Z"
+    },
+    {
+      "name": "Men's Padded Winter Jacket",
+      "slug": "mens-padded-winter-jacket",
+      "description": "Water-resistant padded jacket, warm lining, zip pockets.",
+      "categorySlug": "mens-winter",
+      "status": "active",
+      "badge": "new",
+      "freeDelivery": false,
+      "priceBdt": 2450,
+      "originalPriceBdt": null,
+      "stockQty": 30,
+      "images": [
+        "/products/Shirt (1).webp"
+      ],
+      "rating": 4.4,
+      "reviewCount": 12,
+      "createdAt": "2026-02-03T00:00:00.000Z"
+    }
+  ]
+}
