@@ -1,0 +1,22 @@
+# Local development database. Port 5433 on the host so it doesn't clash
+# with a native PostgreSQL install on 5432.
+services:
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: una
+      POSTGRES_PASSWORD: una_dev_password
+      POSTGRES_DB: una_mart
+    ports:
+      - "5433:5432"
+    volumes:
+      - una_mart_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U una -d una_mart"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  una_mart_pg:

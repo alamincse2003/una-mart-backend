@@ -1,0 +1,13 @@
+// UNA Mart database schema. Models are added module by module, following
+// SYSTEM_DESIGN.md in the frontend repo (catalog first, then orders).
+
+generator client {
+  provider            = "prisma-client"
+  output              = "../src/generated/prisma"
+  moduleFormat        = "esm"
+  importFileExtension = "js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
