@@ -39,8 +39,15 @@ async function askHidden(question: string): Promise<string> {
     stdin.setRawMode(true);
     stdin.resume();
     stdin.setEncoding('utf8');
-    const onData = (chunk: string) => {
+    const onData = (raw: string) => {
+      // Drop terminal escape sequences, e.g. bracketed-paste markers
+      // (ESC[200~ … ESC[201~) that VS Code / Windows Terminal add on paste.
+      // oxlint-disable-next-line no-control-regex -- matching ESC is the point
+      const chunk = raw.replace(/\u001b\[[0-9;?]*[ -/]*[@-~]/g, '');
       for (const ch of chunk) {
+        // Windows sends Enter as \r\n: a stray \n left over from the previous
+        // prompt must not submit an empty answer.
+        if ((ch === '\r' || ch === '\n') && value === '') continue;
         if (ch === '\r' || ch === '\n') {
           stdin.setRawMode(false);
           stdin.pause();
@@ -54,7 +61,7 @@ async function askHidden(question: string): Promise<string> {
           process.exit(130); // Ctrl+C
         }
         if (ch === '\u007f' || ch === '\b') value = value.slice(0, -1);
-        else value += ch;
+        else if (ch >= ' ') value += ch; // ignore other control characters
       }
     };
     stdin.on('data', onData);
