@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# `docker compose`, but using the image tags that are actually deployed
+# (tags.env). Use this for every manual command on the server:
+#
+#   ./dc ps                     # what's running
+#   ./dc logs -f --tail 100 api # follow API logs
+#   ./dc restart web
+#   ./dc run --rm api node_modules/.bin/tsx prisma/seed.ts
+set -euo pipefail
+cd "$(dirname "$0")"
+set -a
+# shellcheck disable=SC1091
+[ -f tags.env ] && . ./tags.env
+set +a
+exec docker compose "$@"

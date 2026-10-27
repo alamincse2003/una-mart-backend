@@ -1,0 +1,4 @@
+# Shell scripts run on Linux servers; never check them out with CRLF.
+*.sh text eol=lf
+deploy/Caddyfile text eol=lf
+deploy/dc text eol=lf

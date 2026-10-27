@@ -1,0 +1,39 @@
+# Caddy gets and renews HTTPS certificates automatically (Let's Encrypt).
+# SITE_DOMAIN and ACME_EMAIL come from /opt/unamart/.env via docker-compose.
+#
+#   unamartbd.com        → redirects to www
+#   www.unamartbd.com    → storefront + admin (Next.js)
+#   api.unamartbd.com    → API (NestJS)
+#
+# Cloudflare DNS records must be "DNS only" (grey cloud), not proxied:
+# Caddy needs to answer the certificate challenge itself, and the API trusts
+# exactly one proxy hop (Caddy) for real client IPs.
+
+{
+	email {$ACME_EMAIL}
+}
+
+(common) {
+	encode zstd gzip
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		-Server
+	}
+}
+
+{$SITE_DOMAIN} {
+	redir https://www.{$SITE_DOMAIN}{uri} permanent
+}
+
+www.{$SITE_DOMAIN} {
+	import common
+	header X-Frame-Options "SAMEORIGIN"
+	reverse_proxy web:3000
+}
+
+api.{$SITE_DOMAIN} {
+	import common
+	reverse_proxy api:4000
+}

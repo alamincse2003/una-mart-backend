@@ -1,0 +1,110 @@
+# CI on every push and pull request; deploy to the VPS on pushes to main.
+#
+#   test   → lint, type-check/build, unit tests, e2e tests on a real Postgres
+#   image  → build the Docker image, push to ghcr.io (main only)
+#   deploy → copy deploy/ to the server, run deploy.sh api <sha> (main only)
+#
+# Deploy is off until the repository variable DEPLOY_ENABLED = true and the
+# secrets SSH_HOST, SSH_USER, SSH_PRIVATE_KEY exist (deploy/VPS_GUIDE.md).
+name: CI / Deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  IMAGE: ghcr.io/${{ github.repository_owner }}/una-mart-api
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: una
+          POSTGRES_PASSWORD: una_ci_password
+          POSTGRES_DB: una_mart
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U una -d una_mart"
+          --health-interval 5s --health-timeout 3s --health-retries 10
+    env:
+      DATABASE_URL: postgresql://una:una_ci_password@localhost:5432/una_mart?schema=public
+      WEB_ORIGIN: http://localhost:3000
+      OTP_SECRET: ci-only-otp-secret-not-used-anywhere-else
+      SMS_PROVIDER: console
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run build
+      - run: npm test
+      - name: Database for e2e tests
+        run: npx prisma migrate deploy && npx prisma db seed
+      - run: npm run test:e2e
+
+  image:
+    needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ env.IMAGE }}:${{ github.sha }}
+            ${{ env.IMAGE }}:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  deploy:
+    needs: image
+    if: vars.DEPLOY_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    environment: production
+    concurrency:
+      group: deploy-production
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+      - name: Copy server files (compose, Caddyfile, scripts)
+        uses: appleboy/scp-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "deploy/docker-compose.yml,deploy/Caddyfile,deploy/*.sh,deploy/dc"
+          target: /opt/unamart
+          strip_components: 1
+      - name: Deploy API
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          command_timeout: 15m
+          script: |
+            chmod +x /opt/unamart/*.sh /opt/unamart/dc
+            /opt/unamart/deploy.sh api ${{ github.sha }}

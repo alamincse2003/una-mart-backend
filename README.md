@@ -162,6 +162,12 @@ scripts/create-admin.ts  admin account CLI
 src/generated/prisma/    generated client (git-ignored)
 ```
 
+## Deployment
+
+Production runs on a VPS with Docker Compose; pushes to `main` deploy
+automatically after the tests pass. Server files and the full runbook:
+[`deploy/VPS_GUIDE.md`](deploy/VPS_GUIDE.md).
+
 ## Environment
 
 See `.env.example`. Never commit `.env`. `OTP_SECRET` must be 32+ random

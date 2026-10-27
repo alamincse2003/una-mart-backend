@@ -2,6 +2,13 @@
 // fails fast with a clear message instead of a confusing runtime error.
 export interface Env {
   NODE_ENV: 'development' | 'test' | 'production';
+  /**
+   * Which deployed site this is. `staging` is the private preview on the
+   * real server before launch: production build and cookies, but OTP codes
+   * may still go to the server log (SMS_PROVIDER=console). Never set on the
+   * public shop.
+   */
+  APP_ENV: 'staging' | 'production';
   PORT: number;
   DATABASE_URL: string;
   WEB_ORIGIN: string[];
@@ -55,12 +62,20 @@ export function validateEnv(raw: Record<string, unknown>): Env {
     errors.push('OTP_SECRET must be at least 32 characters');
   }
 
+  const appEnv = String(raw.APP_ENV ?? 'production');
+  if (!['staging', 'production'].includes(appEnv)) {
+    errors.push('APP_ENV must be staging or production');
+  }
+
   const smsProvider = String(raw.SMS_PROVIDER ?? 'console');
   if (smsProvider !== 'console') {
     errors.push('SMS_PROVIDER must be console (no SMS gateway is wired in yet)');
-  } else if (nodeEnv === 'production') {
-    // Codes would only reach the server log — nobody could log in.
-    errors.push('SMS_PROVIDER=console is not allowed in production; configure a real SMS gateway');
+  } else if (nodeEnv === 'production' && appEnv !== 'staging') {
+    // Codes would only reach the server log — no customer could log in or
+    // pass the checkout code. Allowed only on the private staging site.
+    errors.push(
+      'SMS_PROVIDER=console is not allowed on the public production site; configure a real SMS gateway (or set APP_ENV=staging for the private preview)',
+    );
   }
 
   if (errors.length > 0) {
@@ -69,6 +84,7 @@ export function validateEnv(raw: Record<string, unknown>): Env {
 
   return {
     NODE_ENV: nodeEnv as Env['NODE_ENV'],
+    APP_ENV: appEnv as Env['APP_ENV'],
     PORT: port,
     DATABASE_URL: databaseUrl as string,
     WEB_ORIGIN: webOrigin,

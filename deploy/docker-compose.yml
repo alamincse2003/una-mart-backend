@@ -1,0 +1,90 @@
+# UNA Mart production stack on one VPS. Lives at /opt/unamart on the server
+# (copied there by the API's deploy job). See deploy/VPS_GUIDE.md.
+#
+#   caddy  :80/:443  HTTPS certificates + reverse proxy
+#   web    Next.js storefront + admin (image from una-mart-frontend)
+#   api    NestJS API (image from una-mart-backend)
+#   db     PostgreSQL 17, data in the `db_data` volume
+#
+# Secrets come from /opt/unamart/.env (never in git). Image tags come from
+# /opt/unamart/tags.env, written by deploy.sh.
+name: unamart
+
+x-logging: &logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "5"
+
+services:
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    # Loopback only: reachable from the server itself (backups, SSH tunnel),
+    # never from the internet.
+    ports:
+      - "127.0.0.1:${DB_HOST_PORT:-5432}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    logging: *logging
+
+  api:
+    image: ghcr.io/${GHCR_OWNER}/una-mart-api:${API_TAG:-latest}
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      APP_ENV: ${APP_ENV}
+      PORT: 4000
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}?schema=public
+      WEB_ORIGIN: https://www.${SITE_DOMAIN},https://${SITE_DOMAIN}
+      OTP_SECRET: ${OTP_SECRET}
+      SMS_PROVIDER: ${SMS_PROVIDER}
+      COD_OTP_THRESHOLD: ${COD_OTP_THRESHOLD:-1000000}
+      COD_MAX_ORDER_TOTAL: ${COD_MAX_ORDER_TOTAL:-}
+    logging: *logging
+
+  web:
+    image: ghcr.io/${GHCR_OWNER}/una-mart-web:${WEB_TAG:-latest}
+    restart: unless-stopped
+    depends_on:
+      - api
+    environment:
+      # Server components reach the API over the private Docker network.
+      API_URL: http://api:4000/v1
+    logging: *logging
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    depends_on:
+      - web
+      - api
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    environment:
+      SITE_DOMAIN: ${SITE_DOMAIN}
+      ACME_EMAIL: ${ACME_EMAIL}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    logging: *logging
+
+volumes:
+  db_data:
+  caddy_data:
+  caddy_config:
