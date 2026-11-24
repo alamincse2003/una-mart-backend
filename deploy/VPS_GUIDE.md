@@ -15,8 +15,8 @@ Follow sections 1–6 once, in order. Sections 7–13 are for everyday use.
                      │  HTTPS 443
         ┌────────────▼─────────────────────────────── VPS (Ubuntu 24.04) ──┐
         │  caddy   automatic HTTPS certificates, sends traffic onward      │
-        │    ├─ www.unamartbd.com ──► web   (Next.js storefront + admin)   │
-        │    └─ api.unamartbd.com ──► api   (NestJS API)                   │
+        │    ├─ www.unamart.online ──► web   (Next.js storefront + admin)  │
+        │    └─ api.unamart.online ──► api   (NestJS API)                  │
         │                              └──► db (PostgreSQL, private)       │
         │  /opt/unamart   compose file, scripts, .env, backups/            │
         └──────────────────────────────────────────────────────────────────┘
@@ -144,7 +144,7 @@ pointing to the server IP. Set them to **DNS only** (grey cloud, not orange):
 
 | Type | Name | Content | Proxy |
 |---|---|---|---|
-| A | `@` (unamartbd.com) | `<server-ip>` | DNS only |
+| A | `@` (unamart.online) | `<server-ip>` | DNS only |
 | A | `www` | `<server-ip>` | DNS only |
 | A | `api` | `<server-ip>` | DNS only |
 
@@ -152,7 +152,7 @@ pointing to the server IP. Set them to **DNS only** (grey cloud, not orange):
 counts exactly one proxy in front of it, so it sees real customer IPs for
 its rate limits.
 
-Check propagation from your PC with `nslookup api.unamartbd.com`. It should
+Check propagation from your PC with `nslookup api.unamart.online`. It should
 show the server IP; this can take a few minutes.
 
 ---
@@ -224,8 +224,8 @@ GitHub repo → **Settings → Secrets and variables → Actions**.
 | Repo | Variable | Value |
 |---|---|---|
 | both | `DEPLOY_ENABLED` | `true` |
-| frontend | `NEXT_PUBLIC_API_URL` | `https://api.unamartbd.com/v1` |
-| frontend | `NEXT_PUBLIC_SITE_URL` | `https://www.unamartbd.com` |
+| frontend | `NEXT_PUBLIC_API_URL` | `https://api.unamart.online/v1` |
+| frontend | `NEXT_PUBLIC_SITE_URL` | `https://www.unamart.online` |
 | frontend | `NEXT_PUBLIC_APP_ENV` | `staging` |
 
 Recommended: under **Settings → Environments → production**, add both
@@ -249,7 +249,7 @@ Leave it off for fully automatic deploys.
    The seed loads the delivery zones **and the demo catalog** (with demo
    ratings). That's fine for staging. Archive the demo products in the
    admin panel before going public.
-4. Open `https://www.unamartbd.com`. You should see the yellow **Preview
+4. Open `https://www.unamart.online`. You should see the yellow **Preview
    site** strip. Place a test order. The checkout code appears in the API
    log:
 
@@ -346,7 +346,7 @@ password manager. Everything else comes back from GitHub.
 
 | What | How | Cost |
 |---|---|---|
-| Site down | **UptimeRobot** (or Better Stack): monitor `https://www.unamartbd.com` and `https://api.unamartbd.com/health` every 5 min, with alerts by email or app to both founders | free |
+| Site down | **UptimeRobot** (or Better Stack): monitor `https://www.unamart.online` and `https://api.unamart.online/health` every 5 min, with alerts by email or app to both founders | free |
 | Failed deploy | GitHub emails you when a workflow fails. Keep notifications on. | free |
 | Certificates | Caddy renews them by itself. Let's Encrypt emails `ACME_EMAIL` if something is wrong. | free |
 | Disk full | Check `df -h /` monthly. Docker logs are capped at 50 MB per container. | — |

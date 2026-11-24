@@ -2,7 +2,7 @@ import { validateEnv } from './env.js';
 
 const base = {
   DATABASE_URL: 'postgresql://u:p@localhost:5432/db',
-  WEB_ORIGIN: 'https://www.unamartbd.com',
+  WEB_ORIGIN: 'https://www.unamart.online',
   OTP_SECRET: 'x'.repeat(32),
   SMS_PROVIDER: 'console',
 };
